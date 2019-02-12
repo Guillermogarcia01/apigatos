@@ -2,6 +2,12 @@
 
 var url = "https://api.thecatapi.com/v1/images/search?limit=8&page=1";
 var apiKey = "a678b829-da4f-4006-9bbf-5b0e250258e4";
+var urlCategorias = "https://my-json-server.typicode.com/Guillermogarcia01/apigatos/Categorias";
+
+
+buscar();
+crearCategorias();
+
 
 function requireData(url) {
 
@@ -30,6 +36,25 @@ function requireData(url) {
 
 }
 
+function crearCategorias() {
+    requireData(urlCategorias).then(function (data) {
+
+    let select = document.getElementById("desplegable");
+
+    data.forEach(element => {
+        let option = document.createElement("option");
+        option.value = element.id;
+        option.textContent = element.name;
+        select.appendChild(option);
+    });
+
+
+
+
+    }).catch(function (error) {
+        console.log(error);
+    })
+}
 
 function buscar() {
 
@@ -43,7 +68,6 @@ function buscar() {
 
 }
 
-buscar();
 
 function aniadirGatos(data) {
 
