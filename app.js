@@ -1,13 +1,50 @@
 
 
-var url = "https://api.thecatapi.com/v1/images/search?limit=8&page=1";
+var urlGeneral = "https://api.thecatapi.com/v1/images/search?limit=8&page=1&order=Desc";
 var apiKey = "a678b829-da4f-4006-9bbf-5b0e250258e4";
 var urlCategorias = "https://my-json-server.typicode.com/Guillermogarcia01/apigatos/Categorias";
+var botonBuscar = document.getElementById("submit");
+const categoria = document.getElementById("desplegable");
+var numPaginas;
 
-
-buscar();
 crearCategorias();
 
+botonBuscar.addEventListener("click", (evento)=>{
+
+    categoria;
+    let url = urlGeneral + "&category_ids=" +categoria.value;
+
+    buscarGatos(url);
+    crearPaginador();
+    alert(numPaginas);
+})
+
+
+function crearPaginador(){
+
+    botonSiguiente();
+    botonAtras();
+   
+
+}
+
+function botonSiguiente(){
+    let botonSiguienteTMP = document.createElement("button");
+    botonSiguienteTMP.className = "btn btn-primary"
+    botonSiguienteTMP.textContent = "siguiente";
+
+    let botonSiguiente = document.getElementById("botonSiguiente");
+    botonSiguiente.appendChild(botonSiguienteTMP);
+}
+
+function botonAtras(){
+    let botonSiguienteTMP = document.createElement("button");
+    botonSiguienteTMP.className = "btn btn-primary"
+    botonSiguienteTMP.textContent = "Atras";
+
+    let botonSiguiente = document.getElementById("botonAtras");
+    botonSiguiente.appendChild(botonSiguienteTMP);
+}
 
 function requireData(url) {
 
@@ -20,6 +57,12 @@ function requireData(url) {
 
         xhr.onload = function () {
             if (xhr.status == 200) {
+                
+                if(xhr.getResponseHeader("Pagination-Count") > 50){
+                    numPaginas = 13;
+                }else{
+                    numPaginas = Math.ceil(xhr.getResponseHeader("Pagination-Count") / 8);
+                }
 
                 resolve(xhr.response);
 
@@ -48,15 +91,13 @@ function crearCategorias() {
         select.appendChild(option);
     });
 
-
-
-
     }).catch(function (error) {
         console.log(error);
     })
 }
 
-function buscar() {
+function buscarGatos(url) {
+
 
     requireData(url).then(function (data) {
 
