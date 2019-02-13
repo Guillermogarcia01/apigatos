@@ -6,6 +6,7 @@ var urlCategorias = "https://my-json-server.typicode.com/Guillermogarcia01/apiga
 var botonBuscar = document.getElementById("submit");
 const categoria = document.getElementById("desplegable");
 var numPaginas;
+var iniciado = false;
 
 crearCategorias();
 
@@ -14,9 +15,13 @@ botonBuscar.addEventListener("click", (evento)=>{
     categoria;
     let url = urlGeneral + "&category_ids=" +categoria.value;
 
+    if(iniciado)
+        borrarPaginadorYbusqueda();
+
     buscarGatos(url);
     crearPaginador();
     alert(numPaginas);
+    iniciado = true;
 })
 
 
@@ -25,6 +30,23 @@ function crearPaginador(){
     botonSiguiente();
     botonAtras();
    
+
+}
+
+function borrarPaginadorYbusqueda(){
+    let ul = document.getElementById("photos")
+    let il = ul.childNodes;
+    let longitud = il.length;
+
+    for (let i = 0; i < longitud; i++) {
+        ul.removeChild(ul.firstChild);
+    }
+
+    let botonAtras = document.getElementById("botonAtras");
+    botonAtras.removeChild(botonAtras.firstChild);
+
+    let botonSiguiente = document.getElementById("botonSiguiente");
+    botonSiguiente.removeChild(botonSiguiente.firstChild);
 
 }
 
