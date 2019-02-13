@@ -1,29 +1,57 @@
 
-
-var urlGeneral = "https://api.thecatapi.com/v1/images/search?limit=8&page=1&order=Desc";
+var urlGeneral = "https://api.thecatapi.com/v1/images/search?limit=8&order=Desc";
 var apiKey = "a678b829-da4f-4006-9bbf-5b0e250258e4";
 var urlCategorias = "https://my-json-server.typicode.com/Guillermogarcia01/apigatos/Categorias";
 var botonBuscar = document.getElementById("submit");
 const categoria = document.getElementById("desplegable");
 var numPaginas;
 var iniciado = false;
+var categoriaSeleccionada;
+var pagina = 0;
 
 crearCategorias();
 
 botonBuscar.addEventListener("click", (evento)=>{
 
-    categoria;
-    let url = urlGeneral + "&category_ids=" +categoria.value;
+    categoriaSeleccionada = categoria.value;
+    let url = urlGeneral + "&page="+ pagina+"&category_ids=" +categoria.value;
 
     if(iniciado)
         borrarPaginadorYbusqueda();
 
     buscarGatos(url);
-    crearPaginador();
-    alert(numPaginas);
-    iniciado = true;
+    crearNumerosPaginador();
+
 })
 
+function paginaSiguiente(){
+    pagina++;
+    let url = urlGeneral + "&page="+ pagina+"&category_ids=" + categoriaSeleccionada;
+    borrarPaginadorYbusqueda();
+    buscarGatos(url);
+    
+}
+
+function paginaAnterior(){
+    pagina--;
+    let url = urlGeneral + "&page="+ pagina+"&category_ids=" + categoriaSeleccionada;
+    borrarPaginadorYbusqueda();
+    buscarGatos(url);
+}
+
+function crearNumerosPaginador(){
+    
+    let divNumeros = document.getElementsByClassName("pagination");
+    
+
+    for (let i = 0; i < 4; i++) {
+        let paginaAPoner = document.createElement('li');
+        paginaAPoner.className = "page-item";
+        paginaAPoner.textContent = pagina + i;
+        divNumeros[0].appendChild(paginaAPoner);
+    }
+
+}
 
 function crearPaginador(){
 
@@ -50,22 +78,30 @@ function borrarPaginadorYbusqueda(){
 
 }
 
-function botonSiguiente(){
+function botonSiguiente(evento){
     let botonSiguienteTMP = document.createElement("button");
     botonSiguienteTMP.className = "btn btn-primary"
     botonSiguienteTMP.textContent = "siguiente";
 
     let botonSiguiente = document.getElementById("botonSiguiente");
     botonSiguiente.appendChild(botonSiguienteTMP);
+
+    botonSiguienteTMP.addEventListener('click', ()=>{
+        paginaSiguiente();
+    })
 }
 
 function botonAtras(){
-    let botonSiguienteTMP = document.createElement("button");
-    botonSiguienteTMP.className = "btn btn-primary"
-    botonSiguienteTMP.textContent = "Atras";
+    let botonAtrasTMP = document.createElement("button");
+    botonAtrasTMP.className = "btn btn-primary"
+    botonAtrasTMP.textContent = "Atras";
 
-    let botonSiguiente = document.getElementById("botonAtras");
-    botonSiguiente.appendChild(botonSiguienteTMP);
+    let botonAtras = document.getElementById("botonAtras");
+    botonAtras.appendChild(botonAtrasTMP);
+
+    botonAtrasTMP.addEventListener('click',()=>{
+        paginaAnterior();
+    })
 }
 
 function requireData(url) {
@@ -122,8 +158,11 @@ function buscarGatos(url) {
 
 
     requireData(url).then(function (data) {
-
+        
+        //alert(numPaginas);
         aniadirGatos(data);
+        crearPaginador();
+        iniciado = true;
 
     }).catch(function (error) {
         console.log(error);
