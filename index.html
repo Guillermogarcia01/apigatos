@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>jQuery.getJSON demo</title>
+    <title>Buscado de gatos</title>
     <link rel="stylesheet" type="text/css" href="estilos.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -23,9 +23,9 @@
         <div class="contained">
             <div class="grid-100">
                 <div class="heading">
-                    <h1>Flickr Photo Search</h1>
+                    <h1>Buscador gatos</h1>
                     <form onsubmit="return false">
-                        <label for="search">Type a search term</label>
+                        <label for="search">Categorias</label>
                         <select id="desplegable"></select>
                         <input type="submit" value="Search" id="submit">
 
@@ -45,18 +45,23 @@
 <div>
     <div class="container">
         <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-3">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-1">
+                <div id="botonPrincipio"></div>
+            </div>
+            <div class="col-sm-1">
                 <div id="botonAtras"></div>
             </div>
-            <div class="col-sm-3">
-                <ul class="pagination">
-                </ul>
+            <div class="col-sm-1">
+                <div id="paginaActual"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <div id="botonSiguiente"></div>
             </div>
-            <div class="col-sm-2"></div>
+            <div class="col-sm-1">
+                <div id="botonFinal"></div>
+            </div>
+            <div class="col-sm-4"></div>
         </div>
     </div>
 </div>

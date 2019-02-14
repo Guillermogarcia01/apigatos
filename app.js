@@ -12,7 +12,7 @@ var pagina = 0;
 crearCategorias();
 
 botonBuscar.addEventListener("click", (evento)=>{
-
+    pagina = 0;
     categoriaSeleccionada = categoria.value;
     let url = urlGeneral + "&page="+ pagina+"&category_ids=" +categoria.value;
 
@@ -20,12 +20,13 @@ botonBuscar.addEventListener("click", (evento)=>{
         borrarPaginadorYbusqueda();
 
     buscarGatos(url);
-    crearNumerosPaginador();
 
 })
 
 function paginaSiguiente(){
-    pagina++;
+    if(pagina != numPaginas)
+        pagina++;
+    
     let url = urlGeneral + "&page="+ pagina+"&category_ids=" + categoriaSeleccionada;
     borrarPaginadorYbusqueda();
     buscarGatos(url);
@@ -33,31 +34,31 @@ function paginaSiguiente(){
 }
 
 function paginaAnterior(){
-    pagina--;
+    if(pagina != 0)
+        pagina--;
+
     let url = urlGeneral + "&page="+ pagina+"&category_ids=" + categoriaSeleccionada;
     borrarPaginadorYbusqueda();
     buscarGatos(url);
 }
 
-function crearNumerosPaginador(){
-    
-    let divNumeros = document.getElementsByClassName("pagination");
-    
-
-    for (let i = 0; i < 4; i++) {
-        let paginaAPoner = document.createElement('li');
-        paginaAPoner.className = "page-item";
-        paginaAPoner.textContent = pagina + i;
-        divNumeros[0].appendChild(paginaAPoner);
-    }
-
-}
 
 function crearPaginador(){
 
     botonSiguiente();
     botonAtras();
-   
+    botonPrincipio();
+    botonFinal();
+    mostrarPagina();
+
+}
+
+function mostrarPagina(){
+    let divPaginaActual = document.getElementById("paginaActual");
+    let divNumeros = document.createElement("div");
+    divNumeros.textContent = pagina + "/" + numPaginas;
+
+    divPaginaActual.appendChild(divNumeros);
 
 }
 
@@ -70,15 +71,69 @@ function borrarPaginadorYbusqueda(){
         ul.removeChild(ul.firstChild);
     }
 
+    let botonFinal = document.getElementById("botonFinal");
+    botonFinal.removeChild(botonFinal.firstChild);
+
+    let botonPrincipio = document.getElementById("botonPrincipio");
+    botonPrincipio.removeChild(botonPrincipio.firstChild);
+
     let botonAtras = document.getElementById("botonAtras");
     botonAtras.removeChild(botonAtras.firstChild);
 
     let botonSiguiente = document.getElementById("botonSiguiente");
     botonSiguiente.removeChild(botonSiguiente.firstChild);
 
+    let paginaActual = document.getElementById("paginaActual");
+    paginaActual.removeChild(paginaActual.firstChild);
+
 }
 
-function botonSiguiente(evento){
+function paginaInicio(){
+    let url = urlGeneral + "&page="+ 0 +"&category_ids=" + categoriaSeleccionada;
+    borrarPaginadorYbusqueda();
+    buscarGatos(url);
+    pagina = 0;
+}
+
+function paginaFinal(){
+    let url = urlGeneral + "&page="+ numPaginas +"&category_ids=" + categoriaSeleccionada;
+    borrarPaginadorYbusqueda();
+    buscarGatos(url);
+    pagina = numPaginas;
+}
+
+
+function botonFinal(){
+
+    let botonFinalTMP = document.createElement("button");
+    botonFinalTMP.className = "btn btn-primary"
+    botonFinalTMP.textContent = "Final";
+
+    let botonFinal = document.getElementById("botonFinal");
+    botonFinal.appendChild(botonFinalTMP);
+
+    botonFinalTMP.addEventListener("click",()=>{
+        paginaFinal();
+    })
+
+}
+
+function botonPrincipio(){
+
+    let botonPrincipioTMP = document.createElement("button");
+    botonPrincipioTMP.className = "btn btn-primary"
+    botonPrincipioTMP.textContent = "Principio";
+
+    let botonPrincipio = document.getElementById("botonPrincipio");
+    botonPrincipio.appendChild(botonPrincipioTMP);
+
+    botonPrincipioTMP.addEventListener("click",()=>{
+        paginaInicio();
+    })
+
+}
+
+function botonSiguiente(){
     let botonSiguienteTMP = document.createElement("button");
     botonSiguienteTMP.className = "btn btn-primary"
     botonSiguienteTMP.textContent = "siguiente";
@@ -117,9 +172,10 @@ function requireData(url) {
             if (xhr.status == 200) {
                 
                 if(xhr.getResponseHeader("Pagination-Count") > 50){
-                    numPaginas = 13;
+                    numPaginas = 7;
                 }else{
                     numPaginas = Math.ceil(xhr.getResponseHeader("Pagination-Count") / 8);
+                    numPaginas--;
                 }
 
                 resolve(xhr.response);
