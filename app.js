@@ -21,7 +21,7 @@ botonBuscar.addEventListener("click", (evento)=>{
 
     buscarGatos(url);
 
-})
+});
 
 function paginaSiguiente(){
     if(pagina != numPaginas)
@@ -56,14 +56,14 @@ function crearPaginador(){
 function mostrarPagina(){
     let divPaginaActual = document.getElementById("paginaActual");
     let divNumeros = document.createElement("div");
-    divNumeros.textContent = pagina + "/" + numPaginas;
+    divNumeros.textContent = (pagina+1) + "/" + (numPaginas+1);
 
     divPaginaActual.appendChild(divNumeros);
 
 }
 
 function borrarPaginadorYbusqueda(){
-    let ul = document.getElementById("photos")
+    let ul = document.getElementById("photos");
     let il = ul.childNodes;
     let longitud = il.length;
 
@@ -106,7 +106,7 @@ function paginaFinal(){
 function botonFinal(){
 
     let botonFinalTMP = document.createElement("button");
-    botonFinalTMP.className = "btn btn-primary"
+    botonFinalTMP.className = "btn btn-primary";
     botonFinalTMP.textContent = "Final";
 
     let botonFinal = document.getElementById("botonFinal");
@@ -114,14 +114,14 @@ function botonFinal(){
 
     botonFinalTMP.addEventListener("click",()=>{
         paginaFinal();
-    })
+    });
 
 }
 
 function botonPrincipio(){
 
     let botonPrincipioTMP = document.createElement("button");
-    botonPrincipioTMP.className = "btn btn-primary"
+    botonPrincipioTMP.className = "btn btn-primary";
     botonPrincipioTMP.textContent = "Principio";
 
     let botonPrincipio = document.getElementById("botonPrincipio");
@@ -129,13 +129,13 @@ function botonPrincipio(){
 
     botonPrincipioTMP.addEventListener("click",()=>{
         paginaInicio();
-    })
+    });
 
 }
 
 function botonSiguiente(){
     let botonSiguienteTMP = document.createElement("button");
-    botonSiguienteTMP.className = "btn btn-primary"
+    botonSiguienteTMP.className = "btn btn-primary";
     botonSiguienteTMP.textContent = "siguiente";
 
     let botonSiguiente = document.getElementById("botonSiguiente");
@@ -143,12 +143,12 @@ function botonSiguiente(){
 
     botonSiguienteTMP.addEventListener('click', ()=>{
         paginaSiguiente();
-    })
+    });
 }
 
 function botonAtras(){
     let botonAtrasTMP = document.createElement("button");
-    botonAtrasTMP.className = "btn btn-primary"
+    botonAtrasTMP.className = "btn btn-primary";
     botonAtrasTMP.textContent = "Atras";
 
     let botonAtras = document.getElementById("botonAtras");
@@ -156,7 +156,7 @@ function botonAtras(){
 
     botonAtrasTMP.addEventListener('click',()=>{
         paginaAnterior();
-    })
+    });
 }
 
 function requireData(url) {
@@ -183,11 +183,11 @@ function requireData(url) {
             } else {
                 reject(xhr.statusText);
             }
-        }
+        };
 
         xhr.onerror = function () {
             reject(xhr.statusText);
-        }
+        };
         xhr.send();
     });
 
@@ -207,7 +207,7 @@ function crearCategorias() {
 
     }).catch(function (error) {
         console.log(error);
-    })
+    });
 }
 
 function buscarGatos(url) {
@@ -222,7 +222,7 @@ function buscarGatos(url) {
 
     }).catch(function (error) {
         console.log(error);
-    })
+    });
 
 }
 
