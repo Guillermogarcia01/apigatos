@@ -21,6 +21,10 @@
   height: 0;
 }
 
+.margenInferior{
+  margin-top: 60px;
+}
+
 .grid-container:after, .clearfix:after {
   clear: both;
 }
